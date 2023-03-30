@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css"/>
+    <title>Calendar</title>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="header-container">
+                    <div class="header-logo">
+                        <img src="./assets/calendar.png">
+                    </div>
+                    <nav class="header-nav">
+                        <select class="mobile-menu" onchange="onButtonClick(this.value)">
+                            <option class="mobile-menu-item" value="week">
+                                Week
+                            </option>
+                            <option class="mobile-menu-item" value="month">
+                                Month
+                            </option>
+                            <option class="mobile-menu-item" value="year">
+                                Year
+                            </option>
+                        </select>
+                        <ul class="menu">
+                            <li class="menu-item">
+                                <button class="nav-button nav-button--week" onclick="onButtonClick('week')">Week</button>
+                            </li>
+                            <li class="menu-item">
+                                <button class="nav-button nav-button--month nav-button--pressed" onclick="onButtonClick('month')">Month</button>
+                            </li>
+                            <li class="menu-item">
+                                <button class="nav-button nav-button--year" onclick="onButtonClick('year')">Year</button>
+                            </li>
+                        </ul>                        
+                    </nav>
+                    <div class="menu-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                
+                    
+                </div>
+            </div>
+
+        </header>
+        <main class="main fixed-page">
+            <div class="main-container">
+                <aside id="aside" class="aside">
+                    <div class="button-nav">
+                        <a class="aside-button" href = '#add-new'>Add new</a>
+                        <a class="aside-button" href = '#sign-up'>Sign up</a>
+                        <a class="aside-button" href='#sign-in'>Sign in</a>
+                    </div>
+                    <hr class="calendar-hr">
+                    <div class="themes">
+                        <h4 class="themes-title">Themes</h4>
+                        <button class="add-theme-btn" onclick="window.location.href = '#add-theme'">+</button>
+                    </div>
+                    <div class="themes-container">
+                        <div class="theme-container">
+                            <label for="first_theme" class="theme-title">Work</label>
+                            <input id="first_theme" class="theme-checkbox" type="checkbox">
+                        </div>
+                        <div class="theme-container second-theme">
+                            <label for="second_theme" class="theme-title">Another</label>
+                            <input id="second_theme" class="theme-checkbox" type="checkbox">
+                        </div>
+                    </div>
+                </aside>
+                <div id="aside-container" class="mobile-aside-container">
+                    <aside id="mobile-aside aside" class="mobile-aside">
+                        <a class="aside-button" href = '#sign-up'>
+                            Sign up
+                        </a>
+                        <a class="aside-button" href='#sign-in'>
+                            Sign in
+                        </a>
+                        <a class="aside-button" href = '#add-new'>Add new</a>
+                        <hr class="calendar-hr">
+                        <div class="themes">
+                            <h4 class="themes-title">Themes</h4>
+                            <button class="add-theme-btn" onclick="window.location.href='#add-theme'">+</button>
+                        </div>
+                        <div class="themes-container">
+                            <div class="theme-container">
+                                <h4 class="theme-title">Work</h4>
+                                <input id="first_theme_" class="theme-checkbox" type="checkbox">
+                            </div>
+                            <div class="theme-container second-theme">
+                                <h4 class="theme-title">Another</h4>
+                                <input id="second_theme" class="theme-checkbox" type="checkbox">
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <div id="calendar-container" class="calendar-container">
+                    <div class="calendar-nav">
+                        <button class="calendar-nav-btn" onclick="previous()">&lt</button>
+                        <h1 class="calendar-header" id="calendar-header"></h1>
+                        <button class="calendar-nav-btn" onclick="next()">></button>
+                    </div>
+                    <div id="week_table" class="days days-non-active">
+                        <table class="calendar-table" id="week_calendar">
+                            <thead class="calendar-head">
+                                <tr class="week-tr">
+                                    <th>
+                                        <img class="time-svg" src="./assets/svg/timer-svgrepo-com.svg">
+                                    </th>
+                                    <th>Sun</th>
+                                    <th>Mon</th>
+                                    <th>Tue</th>
+                                    <th>Wed</th>
+                                    <th>Thu</th>
+                                    <th>Fri</th>
+                                    <th>Sat</th>
+                                </tr>
+                            </thead>
+                            <tbody class="week-table-body" id="week-body">
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div id="month_table" class="days">
+                        <table class="calendar-table" id="calendar">
+                            <thead id="month_thead" class="calendar-head">
+                            <tr>
+                                
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="calendar-body">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="year_table" class="days days-non-active">
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div id="sign-up" class="popup">
+        <a href="#" class="popup-area"></a>
+        <div class="popup-body">
+            <div class="popup-content">
+                <a href="#" class="popup-close">X</a>
+                <form action="" name="sign_up" class="popup-form">
+                    <lable for="reg_name" class="popup-lable">Name:</lable>
+                    <input id="reg_name" class="popup-input" type="text">
+                    <lable for="reg_login" class="popup-lable">Login:</lable>
+                    <input id="reg_login" type="text" class="popup-input">
+                    <lable for="reg_password" class="popup-lable">Password:</lable>
+                    <input id="reg_password" type="password" class="popup-input">
+                    <button class="popup-button" type="submit"> Sign up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="sign-in" class="popup">
+        <a href="#" class="popup-area"></a>
+        <div class="popup-body">
+            <div class="popup-content">
+                <a href="#" class="popup-close">X</a>
+                <form action="" name="sign_in" class="popup-form">
+                    <lable for="enter_login" class="popup-lable">Login:</lable>
+                    <input id="enter_login" type="text" class="popup-input">
+                    <lable for="enter_password" class="popup-lable">Password:</lable>
+                    <input id="enter_password" type="password" class="popup-input">
+                    <button class="popup-button" type="submit"> Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="add-new" class="popup">
+        <a href="#" class="popup-area"></a>
+        <div class="popup-body">
+            <div class="popup-content">
+                <a href="#" class="popup-close">X</a>
+                <form action="" name="add_new" class="popup-form">
+                    <lable for="event_name" class="popup-lable">Title:</lable>
+                    <input id="event_name" type="text" class="popup-input">
+                    <lable for="event_description" class="popup-lable">Description:</lable>
+                    <input id="event_description" type="text" class="popup-input">
+                    <lable class="popup-lable">Time period:</lable>
+                    <div class="date">
+                        <label class="popup-lable">From: </label>
+                        <input type="date" class="time" name="date_from" id="date_from">
+                        <input type="time" id="time_from" class="time" name="time_from">
+                    </div>
+                    <div class="date">
+                        <label class="popup-lable">Till: </label>
+                        <input type="date" class="time" name="date_till" id="date_till">
+                        <input type="time" class="time" id="time_till" name="time_till">
+                    </div>
+                    <lable class="popup-lable">Theme: </lable>
+                    <select name="theme" id="theme" class="theme-select">
+                        <option class="opt" value="Work">Work</option>
+                        <option value="Another">Another</option>
+                    </select>
+                    <button class="popup-button" type="submit">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="add-theme" class="popup">
+        <a href="#" class="popup-area"></a>
+        <div class="popup-body">
+            <div class="popup-content">
+                <a href="#" class="popup-close">X</a>
+                <form action="" name="add_theme" class="popup-form">
+                    <lable class="popup-lable">Name for theme: </lable>
+                    <input id="new_theme_name" type="text" class="popup-input">
+                    <lable class="popup-lable">Color: </lable>
+                    <input id="new_theme_color" type="color" class="popup-input">
+                    <button class="popup-button" type="submit">Add theme</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
