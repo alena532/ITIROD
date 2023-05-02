@@ -1,0 +1,17 @@
+<div id="add-theme" class="popup2">
+    <a href="/" id="popup-area" class="popup-area"></a>
+    <div class="popup-body">
+        <div class="popup-content">
+            <button onclick="window.location.href = '/'" class="popup-close">X</button>
+            <form onsubmit="return false;" name="add_theme" class="popup-form">
+                <lable class="popup-lable">Name for theme: </lable>
+                <input id="new_theme_name" type="text" class="popup-input">
+                <div id="theme-name-error" class="err err-not-display">The field is required</div>
+                <div id="theme-name-unique-error" class="err err-not-display">The theme with this name already exists</div>
+                <lable class="popup-lable">Color: </lable>
+                <input id="new_theme_color" type="color" class="popup-input">
+                <button class="popup-button"  onclick="addThemeToDB()" type="submit">Add theme</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -62,6 +62,61 @@ body {
   height: 100%;
   margin: 0 auto; 
 }
+.popup2 {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.5s ease 0s;
+  font-family: Inter;
+}
+
+.enter-button {
+  color: #363940;
+  text-decoration: none;
+  text-align: center;
+  
+  padding: 12px 0;
+  width: 98%;
+  font-family: Inter;
+  border: 2px solid #528798;
+  color: black;
+  font-size: 15px;
+  background: transparent;
+  border-radius: 10px;
+}
+
+.button-not-active{
+  display: none;
+}
+
+
+.enter-button:hover {
+    color: #ffffff;
+    background-color: #528798;
+}
+
+
+.exit-button{
+  height: 34.5px;
+}
+
+.popup2:target {
+  opacity: 1;
+  visibility: visible;
+}
+
+.err {
+  color:#f20;
+}
+
+.err-not-display{
+  display:none;
+}
 
 .wrapper {
   display: flex;
@@ -167,21 +222,7 @@ body {
   gap: 25px;
 }
 
-.enter-button {
-  width: 70px;
-  text-decoration: none;
-  margin: auto;
-  font-family: Inter;
-  background-color: #363940;
-  
-  padding: 4px;
-  
-  font-size: 15px;
-}
 
-.enter-button:hover {
-  color: #ffffff;
-}
 
 .header-logo {
   width: 40px;
@@ -193,6 +234,38 @@ body {
   width: 100%;
   height: 100%;
 }
+
+.form_radio_btn {
+	display: inline-block;
+	margin-right: 10px;
+}
+.form_radio_btn input[type=radio] {
+	display: none;
+}
+.form_radio_btn label {
+	display: inline-block;
+	cursor: pointer;
+	padding: 0px 15px;
+	line-height: 34px;
+	border: 1px solid #999;
+	border-radius: 6px;
+	user-select: none;
+}
+ 
+/* Checked */
+
+ 
+/* Hover */
+.form_radio_btn label:hover {
+	color: #666;
+}
+ 
+.form_radio_btn input[type=radio]:disabled + label {
+	
+	color: #666;
+}
+/* Disabled */
+
 
 .main{
   height: 100%;
@@ -222,7 +295,10 @@ body {
 .aside {
   padding-top: 30px;
   width: 20%;
+  
   background: linear-gradient(173.47deg, rgba(85, 189, 202, 0.7) -2.76%, rgba(149, 255, 255, 0.5) 7.7%, rgba(199, 238, 245, 0.1) 99.64%);
+  height:100%;
+  
 }
 
 .mobile-aside {
@@ -245,7 +321,6 @@ body {
   padding: 12px 0;
   width: 98%;
   font-family: Inter;
-  background-color: #363940;
   border: 2px solid #528798;
   color: black;
   font-size: 15px;
@@ -271,12 +346,18 @@ body {
   margin: 2px;
 }
 
+.themes-container{
+  height:62%;
+  overflow: auto;
+}
+
 .theme-container{
   display: flex;
   justify-content: space-between;
   padding: 0 5px;
   margin: 10px 5px;
   background-color: #2B466F;
+  position:relative;
   border-radius: 10px;
 }
 
@@ -288,6 +369,17 @@ body {
   cursor: pointer;
   height: 20px;
   width: 20px;
+}
+
+.close-theme-btn {
+  position:absolute;
+  right:-1px;
+  top:-1px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #363940;
+  background-color: #a6c2cf;
+  border-radius: 15px;
 }
 
 .add-theme-btn {
@@ -371,15 +463,13 @@ body {
 
 .week-td{
   margin: 1px;
+  overflow: auto;
 }
+
 .week-span{
   display: inline-block;
   vertical-align: middle;
   
-}
-.week-body-container{
-  height:20px; 
-  overflow:auto;
 }
 
 .time-svg{
@@ -411,11 +501,12 @@ td {
 
 .month-td{
   height: 50px;
+  overflow: auto;
 }
 
 .calendar-cell{
   height: 100%;
-
+  overflow: auto;
 }
 
 .calendar-event-td{
@@ -523,6 +614,7 @@ td {
   overflow-x: hidden;
   transition: all 0.5s ease 0s;
   font-family: Inter;
+  
 }
 
 .popup:target {
@@ -739,7 +831,7 @@ td {
   }
 
   .fixed-page {
-    overflow: hidden; /*запрещаем прокручивание страницы при открытом меню*/
+    overflow: hidden; 
   }
 
   .calendar-event-cell{
@@ -758,4 +850,6 @@ td {
   .month-container{
     width: 45%;
   }
+  
 }
+
