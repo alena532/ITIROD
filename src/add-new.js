@@ -88,7 +88,7 @@ import {getAuth} from "firebase/auth";
       timeTill: timeTill.value,
       theme: theme.value,
     }, user.uid);
-    let link = document.getElementById("add_new_close");
+    let link = document.getElementById('popup-area');
     link.click();
     }
 
