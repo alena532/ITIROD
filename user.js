@@ -96,19 +96,15 @@ export class User {
     const db = getDatabase();
     let events = [];
     localStorage.setItem("events", []);
-   // try {
-      const eventsRef = ref(db, `users/${uid}/events`)
-      onValue(eventsRef , (eventsSnap) => {
-        eventsSnap.forEach((eventsChild) => {
-          let event = eventsChild.val();
-          events.push(event);
-        });
-        localStorage.setItem("events", JSON.stringify(events));
+
+    const eventsRef = ref(db, `users/${uid}/events`)
+    onValue(eventsRef , (eventsSnap) => {
+      eventsSnap.forEach((eventsChild) => {
+        let event = eventsChild.val();
+        events.push(event);
       });
-   // } catch (e) {
-   //   alert(e);
-   // }
-    
+      localStorage.setItem("events", JSON.stringify(events));
+    });
   }
 
   static async readThemesFromDB(uid) {

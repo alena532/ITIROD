@@ -31,45 +31,48 @@ import {
   const {remove} = require("./firebase");
   const auth = getAuth(app);
   
-  onAuthStateChanged(auth, (user) => {
-    const addNewButton = document.getElementById("add_new_button");
-    const themes = document.getElementById("my_themes");
-    const asideThemes = document.getElementById("aside_themes");
-    const asideSignUpButton = document.getElementById("aside_sign_in");
-    const asideExitButton = document.getElementById("aside_exit_button");
-    const signInButton = document.getElementById("enter_button");
-    const signUpButton = document.getElementById("reg_button");
-    const exitButton = document.getElementById("exit_button");
-    const asideAddNewButton = document.getElementById("aside_add_new_button")
-    const asideSignInButton = document.getElementById("aside_sign_up");
-    if (user) {
-      if (localStorage.getItem("UID") !==null) {
-        signInButton.classList.add("button-not-active");
-        signUpButton.classList.add("button-not-active");
-        exitButton.classList.remove("button-not-active");
-        asideAddNewButton.classList.remove("button-not-active");
-        addNewButton.classList.remove("button-not-active");
-        themes.classList.remove("button-not-active");
-        asideThemes.classList.remove("button-not-active");
-        asideSignInButton.classList.add("button-not-active");
-        asideSignUpButton.classList.add("button-not-active");
-        asideExitButton.classList.remove("button-not-active");
-        pushThemes();
+  export function setupAuthListener() {
+    onAuthStateChanged(auth, (user) => {
+      const addNewButton = document.getElementById("add_new_button");
+      const themes = document.getElementById("my_themes");
+      const asideThemes = document.getElementById("aside_themes");
+      const asideSignUpButton = document.getElementById("aside_sign_in");
+      const asideExitButton = document.getElementById("aside_exit_button");
+      const signInButton = document.getElementById("enter_button");
+      const signUpButton = document.getElementById("reg_button");
+      const exitButton = document.getElementById("exit_button");
+      const asideAddNewButton = document.getElementById("aside_add_new_button")
+      const asideSignInButton = document.getElementById("aside_sign_up");
+      if (user) {
+        if (localStorage.getItem("UID") !==null) {
+          signInButton.classList.add("button-not-active");
+          signUpButton.classList.add("button-not-active");
+          exitButton.classList.remove("button-not-active");
+          asideAddNewButton.classList.remove("button-not-active");
+          addNewButton.classList.remove("button-not-active");
+          themes.classList.remove("button-not-active");
+          asideThemes.classList.remove("button-not-active");
+          asideSignInButton.classList.add("button-not-active");
+          asideSignUpButton.classList.add("button-not-active");
+          asideExitButton.classList.remove("button-not-active");
+          pushThemes();
+        }
+      } else {
+        signInButton.classList.remove("button-not-active");
+        signUpButton.classList.remove("button-not-active");
+        exitButton.classList.add("button-not-active");
+        asideAddNewButton.classList.add("button-not-active");
+        asideThemes.classList.add("button-not-active");
+        addNewButton.classList.add("button-not-active");
+        themes.classList.add("button-not-active");
+        asideSignInButton.classList.remove("button-not-active");
+        asideSignUpButton.classList.remove("button-not-active");
+        asideExitButton.classList.add("button-not-active");
       }
-    } else {
-      signInButton.classList.remove("button-not-active");
-      signUpButton.classList.remove("button-not-active");
-      exitButton.classList.add("button-not-active");
-      asideAddNewButton.classList.add("button-not-active");
-      asideThemes.classList.add("button-not-active");
-      addNewButton.classList.add("button-not-active");
-      themes.classList.add("button-not-active");
-      asideSignInButton.classList.remove("button-not-active");
-      asideSignUpButton.classList.remove("button-not-active");
-      asideExitButton.classList.add("button-not-active");
-    }
-  });
+    });
+  }
   
+  //setupAuthListener();
   export function pushThemes() {
     const themesContainer = document.getElementById("themes_container");
     const asideThemesContainer = document.getElementById("aside_themes_container");
@@ -77,6 +80,7 @@ import {
     try {
       themes = JSON.parse(localStorage.getItem("themes"));
     } catch {}
+    if(themesContainer.childElementCount===themes.length) return;
     themes.forEach((theme) => {
       const themeConteiner = document.createElement("div");
       themeConteiner.classList.add("theme-container");
@@ -169,7 +173,7 @@ import {
       );
       setTimeout(function() {
         alert("Вы зарегистрированы");
-        let link = document.getElementById('popup-area');
+        let link = document.getElementById("sign_up_close");
         link.click();
       }, 1500);
     } catch ({ message }) {
@@ -177,6 +181,11 @@ import {
     }
   };
   
+  window.method = async function () {
+    var event = new Event('DOMContentLoaded');
+     document.dispatchEvent(event);
+  }
+
   window.enter = async function () { 
     let valid = true;
     let emailValid=true;
@@ -234,16 +243,63 @@ import {
           await User.readEventsFromDB(uid);
           await User.readThemesFromDB(uid);
           setTimeout(function() {
-            let link = document.getElementById('popup-area');
+            let link = document.getElementById("sign_in_close");
             link.click();
-          }, 2500);
+            setupAuthListener();
+          }, 2400);
         }
       }));
-      emailLoginInput.value = "";
-      passwordLoginInput.value = "";
     } catch ({ message }) {
       passwordLoginError.classList.remove("err-not-display");
     }
+  };
+
+  window.addThemeToDB = async function () {
+    const auth = getAuth(app);
+    let valid = true;
+    let themeNameError = document.getElementById("theme-name-error");
+    let themeNameUniqueError = document.getElementById("theme-name-unique-error");
+
+    themeNameError.classList.add("err-not-display");
+    themeNameUniqueError.classList.add("err-not-display");
+
+    const themeName = document.getElementById("new_theme_name");
+    const themeColor = document.getElementById("new_theme_color");
+
+    if (themeName.value.length === 0){
+      themeNameError.classList.remove("err-not-display");
+      valid =false;
+    }
+
+    let themes = JSON.parse(localStorage.getItem("themes"));
+    themes.forEach(theme=>{
+      if(theme.name === themeName.value){
+        themeNameUniqueError.classList.remove("err-not-display");
+        valid =false;
+      }
+    })
+
+    if(valid === false) return;
+
+    const user = auth.currentUser;
+    if (user) {
+      const theme = {
+        uid: user.uid,
+        name: themeName.value,
+        color: themeColor.value,
+      };
+      await User.addTheme({
+        uid: user.uid,
+        name: themeName.value,
+        color: themeColor.value,
+      }, user.uid);
+      setTimeout(function() {
+        let link = document.getElementById("add_theme_close");
+        link.click();
+        setupAuthListener();
+      }, 2400);
+      
+    }   
   };
   
   window.exit = function () {

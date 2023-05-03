@@ -28,6 +28,7 @@ export const locationHandler = async (href) => {
   const route = routesHtml[href];
   console.log(route)
   let html;
+  
   if (href === '/add-new'){
     html = await fetch(route).then((data) => data.text())
     .then(html=>{
@@ -50,6 +51,7 @@ export const locationHandler = async (href) => {
     document.getElementById("modal-window").innerHTML = html;
   }
   else{
+    document.getElementById("modal-window").innerHTML = '';
     document.getElementById("calendar-container").innerHTML = html;
   }
  
