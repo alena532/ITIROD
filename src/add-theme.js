@@ -40,8 +40,9 @@ window.addThemeToDB = async function () {
         uid: user.uid,
         name: themeName.value,
         color: themeColor.value,
+        isActive: true
       }, user.uid);
       let link = document.getElementById('popup-area');
-     link.click();
+      link.click();
     }   
   };

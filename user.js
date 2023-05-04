@@ -69,25 +69,30 @@ export class User {
         },
       }
     )
-    .then(() => {
-      let themes = JSON.parse(localStorage.getItem("themes"));
-      themes.push(theme)
-      localStorage.setItem("themes", JSON.stringify(themes));
-      /*console.log(data)
+    .then((data)=>data.json())
+    .then((data) => {
       theme_id = data.name;
-      var themeRef = ref(getDatabase(),`users/${uid}/themes/${theme_id}`);
-      onValue(themeRef  , (eventsSnap) => {
-        let theme = eventsSnap.val();
-        theme.id=theme_id;
-        let themes = JSON.parse(localStorage.getItem("themes"));
-        themes.push(theme);
-       
-       console.log(themes);
-        localStorage.setItem("themes", JSON.stringify(themes));
-      });
-      */
-      
+      console.log(theme_id)  
+      return theme_id;
     });
+    let themes = JSON.parse(localStorage.getItem("themes"));
+    theme.id=theme_id;
+    console.log(theme.id);
+    themes.push(theme);
+
+    localStorage.setItem("themes", JSON.stringify(themes));
+  }
+
+  static async updateThemeById(uid,event) {
+    const db = getDatabase();
+    console.log(event)
+    set(ref(db, `users/${event.uid}/themes/${event.id}`),
+      event
+    );
+   
+   // } catch (e) {
+   //   alert(e);
+   // }
     
   }
 

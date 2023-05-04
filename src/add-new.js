@@ -10,10 +10,12 @@ import {getAuth} from "firebase/auth";
         themes = JSON.parse(localStorage.getItem("themes"));
       } catch {}
       themes.forEach((theme) => {
-        const themeOption = document.createElement("option");
-        themeOption.innerHTML = theme.name;
-        themeOption.value = theme.name;
-        select.appendChild(themeOption);
+        if (theme.isActive === true){
+          const themeOption = document.createElement("option");
+          themeOption.innerHTML = theme.name;
+          themeOption.value = theme.name;
+          select.appendChild(themeOption);
+        }
       });
       const timeFrom = domElement.querySelector('input[name="time_from"]');
       const timeTill = domElement.querySelector('input[name="time_till"]');

@@ -380,6 +380,13 @@ body {
   border: 1px solid #363940;
   background-color: #a6c2cf;
   border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cross{
+  position: relative;
 }
 
 .add-theme-btn {
@@ -835,7 +842,7 @@ td {
   }
 
   .calendar-event-cell{
-    font-size: 1ex;
+    font-size: 1.5ex;
   }
 
   .cell-number{

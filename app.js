@@ -78,21 +78,28 @@ import {
       themes = JSON.parse(localStorage.getItem("themes"));
     } catch {}
     themes.forEach((theme) => {
-      const themeConteiner = document.createElement("div");
-      themeConteiner.classList.add("theme-container");
-      const themeTitle = document.createElement("label");
-      themeTitle.classList.add("theme-title");
-      themeTitle.innerHTML = theme.name;
-     // const closeButton = document.createElement("button");
-      //closeButton.classList.add("close-theme-btn");
-      //closeButton.innerHTML='x';
-      //closeButton.addEventListener("click",deleteThemeToDB);
-      //closeButton.myParam=theme.id;
-      themeConteiner.appendChild(themeTitle);
-      //themeConteiner.appendChild(closeButton);
-      themeConteiner.style.backgroundColor = theme.color;
-      asideThemesContainer.appendChild(themeConteiner);
-      themesContainer.appendChild(themeConteiner);
+      console.log(theme)
+      if (theme.isActive === true){
+        const themeConteiner = document.createElement("div");
+        themeConteiner.classList.add("theme-container");
+        const themeTitle = document.createElement("label");
+        themeTitle.classList.add("theme-title");
+        themeTitle.innerHTML = theme.name;
+        const closeButton = document.createElement("button");
+        closeButton.classList.add("close-theme-btn");
+        const divButton = document.createElement("div");
+        divButton.classList.add("cross");
+        divButton.innerHTML='x';
+        closeButton.addEventListener("click",deleteThemeToDB);
+        closeButton.myParam=theme;
+        closeButton.myParams=themes;
+        themeConteiner.appendChild(themeTitle);
+        closeButton.appendChild(divButton);
+        themeConteiner.appendChild(closeButton);
+        themeConteiner.style.backgroundColor = theme.color;
+        asideThemesContainer.appendChild(themeConteiner);
+        themesContainer.appendChild(themeConteiner);
+      }
     });
 
     
@@ -105,14 +112,26 @@ import {
       themes = JSON.parse(localStorage.getItem("themes"));
     } catch {}
     themes.forEach((theme) => {
-      const themeConteiner = document.createElement("div");
-      themeConteiner.classList.add("theme-container");
-      const themeTitle = document.createElement("label");
-      themeTitle.classList.add("theme-title");
-      themeTitle.innerHTML = theme.name;
-      themeConteiner.appendChild(themeTitle);
-      themeConteiner.style.backgroundColor = theme.color;
-      asideThemesContainer.appendChild(themeConteiner);
+      if (theme.isActive === true){
+        const themeConteiner = document.createElement("div");
+        themeConteiner.classList.add("theme-container");
+        const themeTitle = document.createElement("label");
+        themeTitle.classList.add("theme-title");
+        themeTitle.innerHTML = theme.name;
+        const closeButton = document.createElement("button");
+        closeButton.classList.add("close-theme-btn");
+        const divButton = document.createElement("div");
+        divButton.classList.add("cross");
+        divButton.innerHTML='x';
+        closeButton.addEventListener("click",deleteThemeToDB);
+        closeButton.myParam=theme;
+        closeButton.myParams=themes;
+        themeConteiner.appendChild(themeTitle);
+        closeButton.appendChild(divButton);
+        themeConteiner.appendChild(closeButton);
+        themeConteiner.style.backgroundColor = theme.color;
+        asideThemesContainer.appendChild(themeConteiner);
+      }
     });
   }
 
@@ -264,6 +283,11 @@ import {
   export const deleteThemeToDB = async (evt) =>  {
     const user = auth.currentUser;
     console.log(evt.currentTarget.myParam)
-    User.deleteTheme(evt.currentTarget.myParam,user.uid);
-    //pushThemes()
+    console.log(evt.currentTarget.myParams)
+    evt.currentTarget.myParam.isActive=false;
+    localStorage.setItem("themes", JSON.stringify(evt.currentTarget.myParams));
+    await User.updateThemeById(evt.uid,evt.currentTarget.myParam);
+    setTimeout(function() {
+      window.location.href = '.ITIROD//index.html'
+    }, 1500);
   };
