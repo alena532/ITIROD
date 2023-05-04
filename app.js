@@ -288,6 +288,6 @@ import {
     localStorage.setItem("themes", JSON.stringify(evt.currentTarget.myParams));
     await User.updateThemeById(evt.uid,evt.currentTarget.myParam);
     setTimeout(function() {
-      window.location.href = 'ITIROD/index.html'
+      window.location.href = '/index.html'
     }, 1500);
   };
