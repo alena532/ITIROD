@@ -76,11 +76,13 @@ export class User {
       return theme_id;
     });
     let themes = JSON.parse(localStorage.getItem("themes"));
-    theme.id=theme_id;
-    console.log(theme.id);
-    themes.push(theme);
+    if(theme != null){
+      theme.id=theme_id;
+      console.log(theme.id);
+      themes.push(theme);
 
-    localStorage.setItem("themes", JSON.stringify(themes));
+      localStorage.setItem("themes", JSON.stringify(themes));
+    }
   }
 
   static async updateThemeById(uid,event) {
