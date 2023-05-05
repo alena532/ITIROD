@@ -13,7 +13,7 @@ export class User {
     );
   }
 
-  static async deleteTheme(eventId, uid) {
+ /* static async deleteTheme(eventId, uid) {
     var db = getDatabase();
     const response = await fetch(`https://calendar-58c7e-default-rtdb.firebaseio.com/users/${uid}/themes/${eventId}`, {
       method: 'DELETE',
@@ -36,6 +36,7 @@ export class User {
       localStorage.setItem("themes", JSON.stringify(themes));
    
   }
+  */
 
   static async addEvent(event, uid) {
     const response = await fetch(
@@ -57,7 +58,6 @@ export class User {
   }
 
   static  async addTheme(theme, uid) {
-    const db = getDatabase();
     let theme_id ;
     const response = await fetch(
       `https://calendar-58c7e-default-rtdb.firebaseio.com/users/${uid}/themes.json`,
@@ -89,11 +89,6 @@ export class User {
     set(ref(db, `users/${event.uid}/themes/${event.id}`),
       event
     );
-   
-   // } catch (e) {
-   //   alert(e);
-   // }
-    
   }
 
   static async readEventsFromDB(uid) {
@@ -101,7 +96,7 @@ export class User {
     const db = getDatabase();
     let events = [];
     localStorage.setItem("events", []);
-   // try {
+   
       const eventsRef = ref(db, `users/${uid}/events`)
       onValue(eventsRef , (eventsSnap) => {
         eventsSnap.forEach((eventsChild) => {
@@ -110,10 +105,6 @@ export class User {
         });
         localStorage.setItem("events", JSON.stringify(events));
       });
-   // } catch (e) {
-   //   alert(e);
-   // }
-    
   }
 
   static async readThemesFromDB(uid) {

@@ -70,10 +70,18 @@ import {
     }
   });
   
-  export function pushThemes() {
+  export async function pushThemes() {
     const themesContainer = document.getElementById("themes_container");
     const asideThemesContainer = document.getElementById("aside_themes_container");
     let themes = [];
+    if(JSON.parse(localStorage.getItem("themes")) == null){
+      await new Promise(async( ) => {
+        const uid = localStorage.getItem("UID");
+        console.log(uid)
+        await User.readEventsFromDB(uid);
+        await User.readThemesFromDB(uid);
+    });
+    }
     try {
       themes = JSON.parse(localStorage.getItem("themes"));
     } catch {}
