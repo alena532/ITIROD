@@ -75,42 +75,67 @@ import {
     const asideThemesContainer = document.getElementById("aside_themes_container");
     let themes = [];
     if(JSON.parse(localStorage.getItem("themes")) == null){
-      await new Promise(async( ) => {
+      new Promise(( ) => {
         const uid = localStorage.getItem("UID");
         console.log(uid)
-        await User.readEventsFromDB(uid);
-        await User.readThemesFromDB(uid);
-    });
+        User.readEventsFromDB(uid);
+        User.readThemesFromDB(uid);
+    }).then(()=>{
+      themes.forEach((theme) => {
+        console.log(theme)
+        if (theme.isActive === true){
+          const themeConteiner = document.createElement("div");
+          themeConteiner.classList.add("theme-container");
+          const themeTitle = document.createElement("label");
+          themeTitle.classList.add("theme-title");
+          themeTitle.innerHTML = theme.name;
+          const closeButton = document.createElement("button");
+          closeButton.classList.add("close-theme-btn");
+          const divButton = document.createElement("div");
+          divButton.classList.add("cross");
+          divButton.innerHTML='x';
+          closeButton.addEventListener("click",deleteThemeToDB);
+          closeButton.myParam=theme;
+          closeButton.myParams=themes;
+          themeConteiner.appendChild(themeTitle);
+          closeButton.appendChild(divButton);
+          themeConteiner.appendChild(closeButton);
+          themeConteiner.style.backgroundColor = theme.color;
+          asideThemesContainer.appendChild(themeConteiner);
+          themesContainer.appendChild(themeConteiner);
+        }
+      });
+    } );
     }
-    try {
-      themes = JSON.parse(localStorage.getItem("themes"));
-    } catch {}
-    themes.forEach((theme) => {
-      console.log(theme)
-      if (theme.isActive === true){
-        const themeConteiner = document.createElement("div");
-        themeConteiner.classList.add("theme-container");
-        const themeTitle = document.createElement("label");
-        themeTitle.classList.add("theme-title");
-        themeTitle.innerHTML = theme.name;
-        const closeButton = document.createElement("button");
-        closeButton.classList.add("close-theme-btn");
-        const divButton = document.createElement("div");
-        divButton.classList.add("cross");
-        divButton.innerHTML='x';
-        closeButton.addEventListener("click",deleteThemeToDB);
-        closeButton.myParam=theme;
-        closeButton.myParams=themes;
-        themeConteiner.appendChild(themeTitle);
-        closeButton.appendChild(divButton);
-        themeConteiner.appendChild(closeButton);
-        themeConteiner.style.backgroundColor = theme.color;
-        asideThemesContainer.appendChild(themeConteiner);
-        themesContainer.appendChild(themeConteiner);
-      }
-    });
-
-    
+    else{
+      try {
+        themes = JSON.parse(localStorage.getItem("themes"));
+      } catch {}
+      themes.forEach((theme) => {
+        console.log(theme)
+        if (theme.isActive === true){
+          const themeConteiner = document.createElement("div");
+          themeConteiner.classList.add("theme-container");
+          const themeTitle = document.createElement("label");
+          themeTitle.classList.add("theme-title");
+          themeTitle.innerHTML = theme.name;
+          const closeButton = document.createElement("button");
+          closeButton.classList.add("close-theme-btn");
+          const divButton = document.createElement("div");
+          divButton.classList.add("cross");
+          divButton.innerHTML='x';
+          closeButton.addEventListener("click",deleteThemeToDB);
+          closeButton.myParam=theme;
+          closeButton.myParams=themes;
+          themeConteiner.appendChild(themeTitle);
+          closeButton.appendChild(divButton);
+          themeConteiner.appendChild(closeButton);
+          themeConteiner.style.backgroundColor = theme.color;
+          asideThemesContainer.appendChild(themeConteiner);
+          themesContainer.appendChild(themeConteiner);
+        }
+      });
+    }
   }
 
   export function pushAsideThemes() {
